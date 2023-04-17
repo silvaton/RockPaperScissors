@@ -14,6 +14,7 @@ struct ContentView: View {
     @State private var machineChoices = ""
     @State private var didUserWin: Bool = false
     @State private var score: Int = 0
+    @State private var roundsLeft: Int = 9
     var buttonSize: CGFloat = 50
     var body: some View {
         VStack {
@@ -21,7 +22,7 @@ struct ContentView: View {
                 .font(.title)
             HStack {
                 Button {
-                    checkMatchRockButton()
+                    validateUserChoice(choice: "rock")
                 } label: {
                     Text("🪨")
                         .font(.system(size: buttonSize))
@@ -35,7 +36,7 @@ struct ContentView: View {
                 .padding()
 
                 Button {
-                    checkMatchPaperButton()
+                    validateUserChoice(choice: "paper")
                 } label: {
                     Text("🗞️")
                         .font(.system(size: buttonSize))
@@ -49,7 +50,7 @@ struct ContentView: View {
                 .padding()
                 
                 Button {
-                    checkMatchScissorsButton()
+                    validateUserChoice(choice: "scissors")
                 } label: {
                     Text("✂️")
                         .font(.system(size: buttonSize))
@@ -68,7 +69,27 @@ struct ContentView: View {
                     Text("Score")
                     Text("\(score)")
                 }
+                .padding()
+                
+                VStack {
+                    Text("Remaining Rounds")
+                    Text("\(roundsLeft)")
+                }
+                .padding()
+            }
+        }
+    }
     
+    func validateUserChoice(choice: String) {
+        if roundsLeft > 0 {
+            roundsLeft -= 1
+            switch choice {
+            case "rock":
+                checkMatchRockButton()
+            case "paper":
+                checkMatchPaperButton()
+            default:
+                checkMatchScissorsButton()
             }
         }
     }
