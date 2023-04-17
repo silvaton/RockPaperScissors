@@ -73,6 +73,7 @@ struct ContentView: View {
                 VStack {
                     Text("Score")
                     Text("\(score)")
+                        .foregroundColor(score > -1 ? .black : .red)
                 }
                 .padding()
                 
