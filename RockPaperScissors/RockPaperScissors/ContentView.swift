@@ -10,8 +10,10 @@ import SwiftUI
 struct ContentView: View {
     
     var gameOptions = ["rock", "paper", "scissors"]
+    var machineImages = ["🪨", "🗞️", "✂️","👀"]
     var buttonSize: CGFloat = 50
     
+    @State private var currentMachineIcon = 3
     @State private var userChoices = ""
     @State private var machineChoices = ""
     @State private var roundResults = ("","")
@@ -27,6 +29,7 @@ struct ContentView: View {
             HStack {
                 VStack(alignment:.leading) {
                     Text("Score")
+                        .bold()
                     Text("\(score)")
                         .foregroundColor(score > -1 ? .black : .red)
                 }
@@ -36,6 +39,7 @@ struct ContentView: View {
                 
                 VStack(alignment: .trailing) {
                     Text("Remaining Rounds")
+                        .bold()
                     Text("\(roundsLeft)")
                         .foregroundColor(roundsLeft > -1 ? .black : .black.opacity(0.0))
                 }
@@ -43,6 +47,20 @@ struct ContentView: View {
             }
             
             Spacer()
+            
+            VStack {
+                Text("Opponent")
+                    .font(.title)
+                Text(machineImages[currentMachineIcon])
+                    .font(.system(size: buttonSize))
+                    .padding()
+                    .shadow(radius: 20)
+                    .background(
+                        Circle()
+                            .stroke(Color.gray, lineWidth: 3.0)
+                    )
+            }
+            .padding(40)
             
             HStack {
                 Button {
@@ -92,10 +110,13 @@ struct ContentView: View {
                 .font(.title)
             
             Spacer()
+            Spacer()
         }
         .alert(roundsLeft > -1 ? "Result:" : "Congrats!!!", isPresented: $showingResult) {
             if roundsLeft == -1 {
                 Button("Restart", action: restartGame)
+            } else {
+                Button("Ok", action: restarMachineIcon)
             }
         } message: {
             if roundResults.0 == "won" && roundsLeft > -1{
@@ -126,7 +147,8 @@ struct ContentView: View {
     }
     
     func checkMatchRockButton() {
-        machineChoices = gameOptions[Int.random(in: 0..<3)]
+        currentMachineIcon = Int.random(in: 0..<3)
+        machineChoices = gameOptions[currentMachineIcon]
         if machineChoices == "scissors" {
             score += 1
             roundResults = ("won","scissors")
@@ -147,7 +169,8 @@ struct ContentView: View {
     }
     
     func checkMatchPaperButton() {
-        machineChoices = gameOptions[Int.random(in: 0..<3)]
+        currentMachineIcon = Int.random(in: 0..<3)
+        machineChoices = gameOptions[currentMachineIcon]
         if machineChoices == "rock" {
             score += 1
             roundResults = ("won","rock")
@@ -167,7 +190,8 @@ struct ContentView: View {
     }
     
     func checkMatchScissorsButton() {
-        machineChoices = gameOptions[Int.random(in: 0..<3)]
+        currentMachineIcon = Int.random(in: 0..<3)
+        machineChoices = gameOptions[currentMachineIcon]
         if machineChoices == "paper" {
             score += 1
             roundResults = ("won","paper")
@@ -187,8 +211,13 @@ struct ContentView: View {
     }
     
     func restartGame() {
+        currentMachineIcon = 3
         score = 0
         roundsLeft = 9
+    }
+    
+    func restarMachineIcon() {
+        currentMachineIcon = 3
     }
 }
 
