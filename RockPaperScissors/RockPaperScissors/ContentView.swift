@@ -23,8 +23,27 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            Text("Tap on your choice")
-                .font(.title)
+            
+            HStack {
+                VStack(alignment:.leading) {
+                    Text("Score")
+                    Text("\(score)")
+                        .foregroundColor(score > -1 ? .black : .red)
+                }
+                .padding()
+            
+                Spacer()
+                
+                VStack(alignment: .trailing) {
+                    Text("Remaining Rounds")
+                    Text("\(roundsLeft)")
+                        .foregroundColor(roundsLeft > -1 ? .black : .black.opacity(0.0))
+                }
+                .padding()
+            }
+            
+            Spacer()
+            
             HStack {
                 Button {
                     validateUserChoice(choice: "rock")
@@ -69,21 +88,10 @@ struct ContentView: View {
                 .padding()
             }
             
-            HStack {
-                VStack {
-                    Text("Score")
-                    Text("\(score)")
-                        .foregroundColor(score > -1 ? .black : .red)
-                }
-                .padding()
-                
-                VStack {
-                    Text("Remaining Rounds")
-                    Text("\(roundsLeft)")
-                        .foregroundColor(roundsLeft > -1 ? .black : .black.opacity(0.0))
-                }
-                .padding()
-            }
+            Text("Tap on your choice")
+                .font(.title)
+            
+            Spacer()
         }
         .alert(roundsLeft > -1 ? "Result:" : "Congrats!!!", isPresented: $showingResult) {
             if roundsLeft == -1 {
