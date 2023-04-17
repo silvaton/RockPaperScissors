@@ -13,6 +13,7 @@ struct ContentView: View {
     @State private var userChoices = ""
     @State private var machineChoices = ""
     @State private var didUserWin: Bool = false
+    @State private var score: Int = 0
     var buttonSize: CGFloat = 50
     var body: some View {
         VStack {
@@ -20,10 +21,9 @@ struct ContentView: View {
                 .font(.title)
             HStack {
                 Button {
-                    checkMatch(choice: "stone")
+                    checkMatchRockButton()
                 } label: {
                     Text("🪨")
-                        //.font(.largeTitle)
                         .font(.system(size: buttonSize))
                         .padding()
                         .shadow(radius: 20)
@@ -32,11 +32,10 @@ struct ContentView: View {
                                 .stroke(Color.gray, lineWidth: 3.0)
                         )
                 }
-                
                 .padding()
 
                 Button {
-                    checkMatch(choice: "stone")
+                    checkMatchPaperButton()
                 } label: {
                     Text("🗞️")
                         .font(.system(size: buttonSize))
@@ -47,11 +46,10 @@ struct ContentView: View {
                                 .stroke(Color.gray, lineWidth: 3.0)
                         )
                 }
-                
                 .padding()
                 
                 Button {
-                    checkMatch(choice: "stone")
+                    checkMatchScissorsButton()
                 } label: {
                     Text("✂️")
                         .font(.system(size: buttonSize))
@@ -68,18 +66,62 @@ struct ContentView: View {
             HStack {
                 VStack {
                     Text("Score")
-                    Text("0")
+                    Text("\(score)")
                 }
     
             }
         }
     }
     
-    func checkMatch(choice: String) {
-        let random = Int.random(in: 0..<3)
-        machineChoices = gameOptions[random]
-        print(random)
-        print(machineChoices)
+    func checkMatchRockButton() {
+        machineChoices = gameOptions[Int.random(in: 0..<3)]
+        if machineChoices == "scissors" {
+            score += 1
+            print("+1")
+            print(machineChoices)
+        } else if machineChoices == "paper"{
+            score -= 1
+            print("-1")
+            print(machineChoices)
+
+        } else {
+            print("0")
+            print(machineChoices)
+        }
+    }
+    
+    func checkMatchPaperButton() {
+        machineChoices = gameOptions[Int.random(in: 0..<3)]
+        if machineChoices == "rock" {
+            score += 1
+            print("+1")
+            print(machineChoices)
+        } else if machineChoices == "scissors"{
+            score -= 1
+            print("-1")
+            print(machineChoices)
+
+        } else {
+            print("0")
+            print(machineChoices)
+        }
+    }
+    
+    func checkMatchScissorsButton() {
+        machineChoices = gameOptions[Int.random(in: 0..<3)]
+        if machineChoices == "paper" {
+            score += 1
+            print("+1")
+            print(machineChoices)
+        } else if machineChoices == "rock"{
+            score -= 1
+            print("-1")
+            print(machineChoices)
+
+        } else {
+            print("0")
+            print(machineChoices)
+        }
     }
 }
 
